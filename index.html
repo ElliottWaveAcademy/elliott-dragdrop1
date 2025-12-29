@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Elliott Wave Drag & Drop</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: #f4f4f4;
+  }
+  #chart {
+    position: relative;
+    width: 800px;
+    margin: auto;
+  }
+  #chart img {
+    width: 100%;
+  }
+  .label {
+    position: absolute;
+    padding: 8px 12px;
+    background: #222;
+    color: #fff;
+    cursor: grab;
+    border-radius: 4px;
+  }
+  .dropzone {
+    position: absolute;
+    width: 80px;
+    height: 40px;
+    border: 2px dashed #999;
+  }
+</style>
+</head>
+
+<body>
+
+<h2>Ziehe die Wellen an die richtige Stelle</h2>
+
+<div id="chart">
+  <img src="chart.png">
+
+  <div class="dropzone" style="top:120px; left:200px;"></div>
+  <div class="dropzone" style="top:90px; left:300px;"></div>
+
+  <div class="label" style="top:10px; left:10px;" draggable="true">1</div>
+  <div class="label" style="top:60px; left:10px;" draggable="true">2</div>
+</div>
+
+<script>
+const labels = document.querySelectorAll('.label');
+const zones = document.querySelectorAll('.dropzone');
+
+labels.forEach(label => {
+  label.addEventListener('dragstart', e => {
+    e.dataTransfer.setData('text', e.target.innerHTML);
+  });
+});
+
+zones.forEach(zone => {
+  zone.addEventListener('dragover', e => e.preventDefault());
+  zone.addEventListener('drop', e => {
+    e.preventDefault();
+    zone.innerHTML = e.dataTransfer.getData('text');
+  });
+});
+</script>
+
+</body>
+</html>
